@@ -1,0 +1,23 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id        String    @id @default(cuid())
+  title     String?
+  slug      String?   @unique
+  content   String?
+  isPublic  Boolean   @default(false)
+  preview   Bytes?
+}
+
+model Document {
+  id        String    @id
+  content   Bytes
+}

@@ -1,0 +1,48 @@
+name: blog
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    command: start-dev
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/mydb
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: admin
+
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
+  app:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/local/app
+    environment:
+      # Hot refresh on a Windows machine
+      - WATCHPACK_POLLING=true
+  
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    volumes:
+      - psql_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+
+volumes:
+  psql_data:
