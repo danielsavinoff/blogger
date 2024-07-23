@@ -183,7 +183,7 @@ export async function GET(
   connection.writer = writer
   connections[key] = [...(connections[key] ?? []), connection]
   
-  writer.write(encoder.encode(JSON.stringify(article)))
+  writer.write(encoder.encode(JSON.stringify(_.pick(article, ['title', 'slug', 'isPublic']))))
 
   request.signal.onabort = async () => {
     connections[key] = (connections[key]).filter(connection => {
