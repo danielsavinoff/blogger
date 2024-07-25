@@ -57,7 +57,6 @@
 }
 
 html {
-  -webkit-font-smoothing: antialiased !important;
-  -webkit-text-stroke-width: 0 !important;
-  touch-action: manipulation;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

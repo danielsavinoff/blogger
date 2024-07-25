@@ -28,7 +28,7 @@ export function Preview({
         </AspectRatio>
       </div>
       <div className="min-w-min w-4/6 flex items-center">
-        <h5 className="text-sm font-medium">{title}</h5>
+        <h2 className="text-base font-semibold leading-snug">{title}</h2>
       </div>
     </Link>
   )

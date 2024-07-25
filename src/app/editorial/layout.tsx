@@ -27,7 +27,7 @@ export default function EditorialLayout({
       </header>
       <div className="relative grow flex overflow-hidden">
         <Sheet modal={false} open>
-          <SheetContent side={"left"} className="w-full static p-2 border-r-0 sm:border-r shadow-none !animate-none focus:outline-none overflow-auto z-0">
+          <SheetContent side={"left"} className="w-full static p-2 gap-0 border-r-0 sm:border-r shadow-none !animate-none focus:outline-none overflow-auto z-0">
             <List<React.ComponentProps<typeof Preview> & { key?: string | number }>
               endpoint="/api/articles"
               adapter={{

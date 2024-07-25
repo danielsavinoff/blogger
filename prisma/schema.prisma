@@ -12,7 +12,7 @@ model Article {
   id        String    @id @default(cuid())
   title     String?
   slug      String?   @unique
-  content   String?
+  content   Bytes?
   isPublic  Boolean   @default(false)
   preview   Bytes?
 }

@@ -11,6 +11,7 @@ import { getCookie } from "@/lib/getCookie"
 import { auth, config } from "@/auth"
 import { Auth, createActionURL } from '@auth/core'
 import type { NextAuthConfig, Session } from "next-auth"
+import Y from 'yjs'
 import _ from "lodash"
 
 /** Taken unmodified from Auth.JS because they don't export this. The auth() function results in an error and there seem to be a problem with headers() from "next/headers". It's a work-around until next-ws package makes it to Next in one way or another. */
@@ -173,8 +174,19 @@ export async function GET(
   if (!article || (!article.isPublic && !(await auth()))) 
     return new Response('Not Found', { status: 404 })
 
-  if (request.headers.get('accept') !== 'text/event-stream')
-    return Response.json(article)
+  if (request.headers.get('accept') !== 'text/event-stream') {
+    const { content } = article
+
+    if (!content) return Response.json(article)
+
+    // Finish later, send HTML to the frontend
+    const yDoc = new Y.Doc()
+    Y.applyUpdateV2(yDoc, new Uint8Array(
+      content.buffer, 
+      content.byteOffset, 
+      content.byteLength
+    ))
+  }
 
   let responseStream = new TransformStream()
   const writer = responseStream.writable.getWriter()
