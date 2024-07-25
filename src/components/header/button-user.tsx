@@ -8,8 +8,8 @@ export async function User() {
 
   return(
     <DropdownMenu>
-        <DropdownMenuTrigger className="h-12 px-4 flex items-center">
-          <Avatar className="h-6">
+        <DropdownMenuTrigger className="h-12 flex items-center">
+          <Avatar className="h-8">
             <AvatarFallback>
               {data?.user?.email?.[0] ?? data?.user?.name?.[0]}
             </AvatarFallback>

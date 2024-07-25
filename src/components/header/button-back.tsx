@@ -11,7 +11,7 @@ export function Back() {
   const { id } = useParams<{ id?: string }>()
   
   if (!id || isMinimumSmall) return(
-    <h1 className="px-4 text-xl font-semibold leading-[3rem] select-none">Editorial</h1>
+    <h1 className="text-xl font-semibold leading-[3rem] select-none">Editorial</h1>
   )
 
   return(

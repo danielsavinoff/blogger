@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons"
+import { PlusIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
@@ -25,12 +25,12 @@ export function New() {
 
   return (
     <Button 
-      className="select-none h-12" 
-      variant={"clear"} 
-      size={"icon"} 
       onClick={handleClick}
+      className="h-full ml-auto lg:opacity-0 lg:invisible group-hover:visible group-hover:opacity-100 transition-all !text-muted-foreground rounded-sm" 
+      variant={"ghost"} 
+      size={"icon"}
     >
-      <PlusIcon className="h-4 w-4" />
+      <PlusIcon className="h-[0.875rem] w-[0.875rem]"/>
     </Button>
   )
 }
