@@ -8,16 +8,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Article {
+model article {
   id        String    @id @default(cuid())
   title     String?
   slug      String?   @unique
   content   Bytes?
   isPublic  Boolean   @default(false)
   preview   Bytes?
-}
-
-model Document {
-  id        String    @id
-  content   Bytes
 }

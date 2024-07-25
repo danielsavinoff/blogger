@@ -67,12 +67,12 @@ export async function SOCKET(
     return [auth satisfies Session | null, authResponse.headers.getSetCookie()]
   })
   
-  server.on('headers', (headers) => {
+  server.once('headers', (headers) => {
     headers.push('Set-Cookie: ' + cookie);
   })
 
   if (!user) return client.close(3000)
-
+  
   console.log(
     `A client connected through a Websocket connection:`,
     `${request.headers.origin}${request.url}`,
@@ -80,28 +80,30 @@ export async function SOCKET(
 
   setPersistence({
     bindState: async (id: string, document: Doc) => {
-      console.log(`Initializing state of the room ${id}`)
-
-      const persisted = await db.document.findUnique({
-        where: { id },
+      const article = await db.article.findUnique({
+        where: { id: id.split('/').at(-1)! },
       })
       
-      if (persisted?.content) applyUpdateV2(document, new Uint8Array(
-        persisted.content.buffer, 
-        persisted.content.byteOffset, 
-        persisted.content.byteLength
-      ))
-      else console.log(`Content for room ${id} was not found`)
+      if (!article) return client.close(3000)
+
+      const content = article?.content
+
+      if (content) applyUpdateV2(
+        document, 
+        new Uint8Array(
+          content.buffer, 
+          content.byteOffset, 
+          content.byteLength
+        )
+      )
     },
     writeState: async (id: string, document: Doc) => {
-      console.log(`All clients left room ${id}, persisting the last state...`)
-
+      /** Runs if last user closed document */
       const content = Buffer.from(encodeStateAsUpdateV2(document))
 
-      await db.document.upsert({
-        create: { id, content },
-        update: { content },
-        where: { id },
+      await db.article.update({
+        where: { id: id.split('/').at(-1)! },
+        data: { content }
       })
     },
   })
