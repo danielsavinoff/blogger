@@ -28,13 +28,13 @@ import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/compon
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { blobToBase64 } from "@/lib/blobToBase64"
+import { EllipsisIcon } from "lucide-react"
 
 export function Actions() {
   const router = useRouter()
 
   const { id } = useParams<{ id?: string }>()
   
-  if (!id) return null
 
   const [openDeletionAlert, setOpenDeletionAlert] = useState<boolean>(false)
   useHotkeys('mod+delete', () => {
@@ -96,17 +96,18 @@ export function Actions() {
             <PopoverAnchor asChild>
               <DropdownMenuTrigger asChild>
                 <Button
-                  className="select-none h-12"
-                  variant={"clear"} 
+                  className="h-full ml-auto text-foreground/80 rounded-sm" 
+                  variant={"ghost"} 
                   size={"icon"}
+                  onClick={e => e.preventDefault()}
                 >
-                  <DotsHorizontalIcon className="h-4 w-4" />
+                  <EllipsisIcon className="h-[0.875rem] w-[0.875rem]"/>
                 </Button>
               </DropdownMenuTrigger>
             </PopoverAnchor>
             <DropdownMenuContent 
               className="min-w-48" 
-              align="end"
+              align="center"
               onCloseAutoFocus={(e) => e.preventDefault()}
             >
               <DropdownMenuGroup>

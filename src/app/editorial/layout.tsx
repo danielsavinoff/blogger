@@ -1,5 +1,4 @@
 import { Container } from "@/components/ui/container"
-import { Actions } from "@/components/header/button-actions"
 import { New } from "@/components/sidebar/button-new"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
 import { Back } from "@/components/header/button-back"
@@ -7,7 +6,7 @@ import { Content } from "@/components/content/content"
 import { List } from "@/components/ui/list"
 import { Preview } from "@/components/sidebar/preview"
 import { User } from "@/components/header/button-user"
-import { PlusIcon } from "lucide-react"
+import { PlusIcon, SquarePenIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function EditorialLayout({
@@ -22,20 +21,19 @@ export default function EditorialLayout({
           <Back />
         </div>
         <div className="flex justify-end ml-auto">
-          <Actions />
           <User />
         </div>
       </header>
       <div className="relative grow flex overflow-hidden">
         <Sheet modal={false} open>
-          <SheetContent side={"left"} className="w-full static flex flex-col p-2 gap-0 border-r-0 sm:border-r shadow-none !animate-none focus:outline-none overflow-auto z-0">
-            <div className="w-full flex p-2 group">
+          <SheetContent side={"left"} className="w-full relative flex flex-col p-0 gap-0 border-r-0 sm:border-r shadow-none !animate-none focus:outline-none overflow-auto z-0">
+            {/* <div className="w-full flex p-2 group">
               <p className="text-xs font-semibold text-muted-foreground">
                 Content
               </p>
               <New />
-            </div>
-            <div className="flex-grow">
+            </div> */}
+            <div className="flex-grow p-2 space-y-2">
               <List<React.ComponentProps<typeof Preview> & { key?: string | number }>
                 endpoint="/api/articles"
                 adapter={{
@@ -46,6 +44,12 @@ export default function EditorialLayout({
               >
                 <Preview />
               </List>
+            </div>
+            <div className="absolute w-full bottom-0 flex justify-center p-2 bg-background">
+              <Button variant={"link"} size={"sm"}>
+                <SquarePenIcon className="h-4 w-4 mr-2" />
+                Write 
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
