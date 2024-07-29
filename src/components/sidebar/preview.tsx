@@ -2,21 +2,18 @@
 
 import Link from "next/link"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { blobToBase64 } from "@/lib/blobToBase64"
-import { useEffect, useState } from "react"
-import { EllipsisIcon } from "lucide-react"
-import { Button } from "../ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { Actions } from "./button-actions"
 
 export function Preview({
   title,
   link,
+  id,
   disabled,
   image
 }: {
   title?: string
   link?: string
+  id?: string
   disabled?: boolean
   image?: string
 }) {
@@ -31,7 +28,7 @@ export function Preview({
           <p className="text-xs font-semibold text-muted-foreground">
             Artificial Intelligence
           </p>
-          <Actions />
+          <Actions id={id} />
         </div>
         <div className="w-full flex gap-4">
           <div className="w-4/6 flex items-center">

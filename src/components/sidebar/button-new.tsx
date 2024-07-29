@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { PlusIcon } from "lucide-react"
+import { PlusIcon, SquarePenIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
@@ -19,18 +19,18 @@ export function New() {
         if (res.status === 200) return res.json()
         else throw new Error(res.statusText)
       })
-      .then((data) => router.push(`/${data.id!}`))
+      .then((data) => router.push(`/editorial/${data.id!}`))
       .catch((e) => console.log(e))
   }
 
   return (
     <Button 
+      variant={"link"} 
+      size={"sm"} 
       onClick={handleClick}
-      className="h-full ml-auto lg:opacity-0 lg:invisible group-hover:visible group-hover:opacity-100 transition-all !text-muted-foreground rounded-sm" 
-      variant={"ghost"} 
-      size={"icon"}
     >
-      <PlusIcon className="h-[0.875rem] w-[0.875rem]"/>
+      <SquarePenIcon className="h-4 w-4 mr-2" />
+      Write 
     </Button>
   )
 }

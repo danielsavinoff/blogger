@@ -30,24 +30,12 @@ import { Button } from "@/components/ui/button"
 import { blobToBase64 } from "@/lib/blobToBase64"
 import { EllipsisIcon } from "lucide-react"
 
-export function Actions() {
+export function Actions({
+  id
+}: {
+  id?: string
+}) {
   const router = useRouter()
-
-  const { id } = useParams<{ id?: string }>()
-  
-
-  const [openDeletionAlert, setOpenDeletionAlert] = useState<boolean>(false)
-  useHotkeys('mod+delete', () => {
-    if (!id) return
-
-    setOpenDeletionAlert(prev => !prev)
-  }, {
-    enableOnContentEditable: true,
-    enableOnFormTags: true
-  })
-
-  const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
-  const isLargeScreen = window.matchMedia("(min-width: 768px)").matches
 
   const [isActionDropdownOpen, setIsActionDropdownOpen] = useState<boolean>(false)
   const [isRenamePopoverOpen, setIsRenamePopoverOpen] = useState<boolean>(false)
@@ -60,22 +48,20 @@ export function Actions() {
   useEffect(() => {
     fetch(`/api/articles/${id}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Accept': 'text/event-stream'
-      }
     })
-      .then(async (res) => {
-        const reader = res.body!.pipeThrough(new TextDecoderStream()).getReader()
+      .then(res => res.json())
+      .then(data => setArticle(data))
+      // .then(async (res) => {
+      //   const reader = res.body!.pipeThrough(new TextDecoderStream()).getReader()
         
-        while (true) {
-          const {value, done} = await reader.read()
+      //   while (true) {
+      //     const {value, done} = await reader.read()
           
-          if (done) break
+      //     if (done) break
 
-          setArticle(JSON.parse(value))
-        }
-      })
+      //     setArticle(JSON.parse(value))
+      //   }
+      // })
   }, [id])
 
   const title = useRef<string>(article?.title as string ?? '')
@@ -90,7 +76,7 @@ export function Actions() {
 
   return (
     <>
-      <AlertDialog open={openDeletionAlert} onOpenChange={setOpenDeletionAlert}>
+      <AlertDialog>
         <Popover modal open={isRenamePopoverOpen} onOpenChange={setIsRenamePopoverOpen}>
           <DropdownMenu open={isActionDropdownOpen} onOpenChange={setIsActionDropdownOpen}>
             <PopoverAnchor asChild>
@@ -131,7 +117,7 @@ export function Actions() {
                   checked={isPublic} 
                   onCheckedChange={value => {
                     fetch(`/api/articles/${id}`, {
-                      method: 'PUT',
+                      method: 'PATCH',
                       body: JSON.stringify({
                         data: { isPublic: value }
                       })
@@ -149,11 +135,6 @@ export function Actions() {
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem>
                     Delete
-                    <DropdownMenuShortcut 
-                      hidden={isTouchDevice && !isLargeScreen}
-                    >
-                      ⌘ Del
-                    </DropdownMenuShortcut>
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
               </DropdownMenuGroup>
@@ -185,7 +166,7 @@ export function Actions() {
               onFocusOutside={(e) => e.preventDefault()}
               onInteractOutside={() => {
                 fetch(`/api/articles/${id}`, {
-                  method: 'PUT',
+                  method: 'PATCH',
                   body: JSON.stringify({
                     data: { title: title.current }
                   })
@@ -214,7 +195,7 @@ export function Actions() {
           const base64 = buffer.toString('base64')
 
           fetch(`/api/articles/${id}`, {
-            method: 'PUT',
+            method: 'PATCH',
             body: JSON.stringify({
               data: { preview: base64 }
             })
