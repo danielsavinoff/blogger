@@ -177,17 +177,18 @@ export async function GET(
     return new Response('Not Found', { status: 404 })
 
   if (request.headers.get('accept') !== 'text/event-stream') {
-    const { content } = article
+    const { content, ...articleNoContent } = article
 
-    if (!content) return Response.json(article)
-
+    return Response.json(articleNoContent)
     // Finish later, send HTML to the frontend
-    const yDoc = new Y.Doc()
-    Y.applyUpdateV2(yDoc, new Uint8Array(
-      content.buffer, 
-      content.byteOffset, 
-      content.byteLength
-    ))
+    // if (content) {
+    //   const yDoc = new Y.Doc()
+    //   Y.applyUpdateV2(yDoc, new Uint8Array(
+    //     content.buffer, 
+    //     content.byteOffset, 
+    //     content.byteLength
+    //   ))
+    // }
   }
 
   let responseStream = new TransformStream()
@@ -220,7 +221,7 @@ export async function GET(
   })
 }
 
-export async function PUT(
+export async function PATCH(
   request: Request,
   { params: { key } }: { params: { key: string } }
 ) {
