@@ -1,4 +1,4 @@
-export const blobToBase64 = async (blob: Blob): Promise<string> => {
+export const blobToBase64URL = async (blob: Blob): Promise<string> => {
   return await new Promise((resolve, reject) => {
     const reader = new FileReader();
     

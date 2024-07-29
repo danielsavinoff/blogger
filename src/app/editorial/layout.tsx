@@ -4,7 +4,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet"
 import { Back } from "@/components/header/button-back"
 import { Content } from "@/components/content/content"
 import { List } from "@/components/ui/list"
-import { Preview } from "@/components/sidebar/preview"
+import { ArticleCard } from "@/components/sidebar/article-card"
 import { User } from "@/components/header/button-user"
 import { PlusIcon, SquarePenIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -28,16 +28,16 @@ export default function EditorialLayout({
         <Sheet modal={false} open>
           <SheetContent side={"left"} className="w-full relative flex flex-col p-0 gap-0 border-r-0 sm:border-r shadow-none !animate-none focus:outline-none overflow-auto z-0">
             <div className="flex-grow p-2 space-y-2">
-              <List<React.ComponentProps<typeof Preview> & { key?: string | number }>
+              <List<React.ComponentProps<typeof ArticleCard> & { key?: string | number }>
                 endpoint="/api/articles"
                 adapter={{
                   link: '/editorial/[id]',
-                  image: 'data:image/png;base64,[preview]',
+                  image: 'data:image/png;base64,[cover]',
                   key: '[id]',
                   id: '[id]'
                 }}
               >
-                <Preview />
+                <ArticleCard />
               </List>
             </div>
             <div className="absolute w-full bottom-0 flex justify-center p-2 bg-background">

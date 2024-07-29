@@ -14,5 +14,5 @@ export const schema = z
       .optional(),
     isPublic: z.boolean().optional(),
     /** Blob up to 10 MB in Base64 string */
-    preview: z.string().optional() 
+    cover: z.string().optional() 
   })

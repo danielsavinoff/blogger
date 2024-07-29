@@ -27,7 +27,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { blobToBase64 } from "@/lib/blobToBase64"
+import { blobToBase64URL } from "@/lib/blobToBase64URL"
 import { EllipsisIcon } from "lucide-react"
 
 export function Actions({

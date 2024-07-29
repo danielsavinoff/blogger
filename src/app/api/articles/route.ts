@@ -16,15 +16,15 @@ export async function POST(request: Request) {
 
   let buffer
 
-  if (data?.preview) {
-    buffer = Buffer.from(data.preview, 'base64')
+  if (data?.cover) {
+    buffer = Buffer.from(data.cover, 'base64')
   }
   
-  const dataNoPreview = _.omit(data, ['preview'])
+  const dataNocover = _.omit(data, ['cover'])
 
   const dataWithBuffer = {
-    ...(dataNoPreview),
-    ...(buffer ? { preview: buffer} : {})
+    ...(dataNocover),
+    ...(buffer ? { cover: buffer} : {})
   }
 
   const article = await db.article.create({
@@ -37,14 +37,14 @@ export async function POST(request: Request) {
 export async function GET() {
   const articles = await db.article.findMany()
 
-  const articlesWithBase64Preview = []
+  const articlesWithBase64Cover = []
 
   for(const value of articles) {
-    articlesWithBase64Preview.push({
-      ...(_.omit(value, ['preview'])),
-      ...(value.preview ? { preview: value.preview.toString('base64') } : {})
+    articlesWithBase64Cover.push({
+      ...(_.omit(value, ['cover'])),
+      ...(value.cover ? { cover: value.cover.toString('base64') } : {})
     })
   }
 
-  return Response.json(articlesWithBase64Preview)
+  return Response.json(articlesWithBase64Cover)
 }

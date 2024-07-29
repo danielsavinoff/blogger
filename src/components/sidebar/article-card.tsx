@@ -4,7 +4,7 @@ import Link from "next/link"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Actions } from "./button-actions"
 
-export function Preview({
+export function ArticleCard({
   title,
   link,
   id,

@@ -131,7 +131,7 @@ const encoder = new TextEncoder()
 
 const handleUpdate = async (query: {
     where: { id: string }
-    data: Omit<z.infer<typeof schema>, 'preview'> & { preview?: Buffer }
+    data: Omit<z.infer<typeof schema>, 'cover'> & { cover?: Buffer }
   }, 
   connections: Connection[]
 ) => {
@@ -235,15 +235,15 @@ export async function PATCH(
 
   let buffer
 
-  if (data?.preview) {
-    buffer = Buffer.from(data.preview, 'base64')
+  if (data?.cover) {
+    buffer = Buffer.from(data.cover, 'base64')
   }     
 
-  const dataNoPreview = _.omit(data, ['preview'])
+  const dataNoCover = _.omit(data, ['cover'])
 
   const dataWithBuffer = {
-    ...(dataNoPreview),
-    ...(buffer ? { preview: buffer} : {})
+    ...(dataNoCover),
+    ...(buffer ? { cover: buffer} : {})
   }
 
   if (error)

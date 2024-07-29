@@ -13,6 +13,6 @@ model article {
   title     String?
   slug      String?   @unique
   content   Bytes?
+  cover     Bytes?
   isPublic  Boolean   @default(false)
-  preview   Bytes?
 }
