@@ -20,7 +20,7 @@ import { Button } from "./button"
 import tippy, { Instance, Props, Tippy } from "tippy.js"
 import { cn } from "@/lib/utils"
 import { Plugin, PluginKey } from "@tiptap/pm/state"
-import { blobToBase64 } from "@/lib/blobToBase64"
+import { blobToBase64URL } from "@/lib/blobToBase64URL"
 
 export function Editor({
   link,
@@ -548,7 +548,7 @@ const Image = Node.create<ImageOptions>({
                 const file = files.item(0);
 
                 if (file && file.type.includes('image')) {
-                  const dataUrl = await blobToBase64(file);
+                  const dataUrl = await blobToBase64URL(file);
                   
                   return this.editor.chain().setImage({ src: dataUrl }).run();
                 }
