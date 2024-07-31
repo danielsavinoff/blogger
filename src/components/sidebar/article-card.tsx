@@ -25,7 +25,7 @@ export function ArticleCard({
         aria-disabled={disabled}
       >
         <div className="w-full flex">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Artificial Intelligence
           </p>
           <Actions id={id} />
